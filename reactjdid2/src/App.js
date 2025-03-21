@@ -6,7 +6,7 @@ function App() {
   const userlist = [
     {id:1, name: 'iron man', email: 'ironman@exemple.com'},
     {id:2, name: 'spider man', email: 'spiderman@exemple.com'},
-    {id:3, name: 'deadpool', email: 'deadpool@exemple.com'},
+    {id:3, name: 'dead pool', email: 'deadpool@exemple.com'},
   ]
   const [users, setUsers] = useState(userlist);
   const [name, setName] = useState('');
@@ -43,7 +43,7 @@ function App() {
     setName(tempUser.name);
     setEmail(tempUser.email);
   }
-  const handleaddUser = () => {
+  const handleAddUser = () => {
     if(!name || !email){
       alert('please fill the form');
     }else {
@@ -58,14 +58,43 @@ function App() {
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="name" value={name} onChange={(e) => setName(e.target.value)} />
         <input type="email" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <button type="submit">{isEditing ? 'edit' : 'submit'}</button>
+        <button type="submit" onClick={()=>{handleEdit(user.id)}}>EDIT</button>
+        <button type='submit' onClick={()=>{handleDelete(user.id)}}>DELETE</button>
       </form>
-      <form onSubmit={handleaddUser}>
+      <form>
         <input type="text" placeholder="name" onChange={(e) => setName(e.target.value)} />
         <input type="email" placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-        <button type="submit">ADD</button>
+        <button type="submit" onClick={()=>{handleAddUser}}>ADD</button>
       </form>
-
+      <table
+        width="100%"
+        border="1"
+        cellPadding="8"
+        style={{ borderCollapse: 'collapse' }}
+      >
+        <thead>
+          <tr style={{ textAlign: 'left' }}>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.length > 0 ? (
+            users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No users available</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }
